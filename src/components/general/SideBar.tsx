@@ -1,5 +1,5 @@
-import CreateNewTab from '../main/CreateNewTab';
-import TabButton from '../main/TabButton';
+import CreateNewTab from '../sidebar/CreateNewTab';
+import TabButton from '../sidebar/TabButton';
 import Logo from './Logo';
 
 function SideBar() {
