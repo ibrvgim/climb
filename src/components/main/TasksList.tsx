@@ -10,10 +10,10 @@ function TasksList({ category, color }: Props) {
   return (
     <div className='w-80'>
       <div className='flex items-center gap-3 mb-6'>
-        <span className={`text-sm ${color}`}>
+        <span className={`text-[13px] ${color}`}>
           <FaRegDotCircle />
         </span>
-        <p className='uppercase text-[13px] tracking-widest text-gray-400 font-light'>
+        <p className='uppercase text-[13px] tracking-widest text-gray-400'>
           {category}
         </p>
       </div>
@@ -23,6 +23,7 @@ function TasksList({ category, color }: Props) {
         <TaskCard />
         <TaskCard />
       </div>
+      <div className='mb-6'>&nbsp;</div>
     </div>
   );
 }

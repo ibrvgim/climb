@@ -3,7 +3,7 @@ import Link from 'next/link';
 function TaskCard() {
   return (
     <Link
-      href=''
+      href={`001`}
       className='bg-gray-800 border-[1px] border-gray-600 px-4 py-6 rounded-lg'
     >
       <p className='text-gray-300 font-bold tracking-wide text-[15px]'>
