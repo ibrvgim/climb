@@ -23,10 +23,11 @@ function Select({ defaultValue }: { defaultValue?: string }) {
   }
 
   return (
-    <div className='relative w-96'>
+    <div className='relative w-96 relative'>
       <button
-        className='flex items-center justify-between border-[1px] text-gray-400 text-sm border-gray-500 px-4 py-2 rounded-md w-full'
+        className='flex items-center justify-between text-gray-400 text-sm border-[1px] border-gray-500 px-4 h-10 rounded-md w-full'
         onClick={handleShow}
+        type='button'
       >
         {value.toUpperCase() || 'Select Status'}
 
@@ -50,7 +51,7 @@ function Options({
   handleValue: (data: string) => void;
 }) {
   return (
-    <div className='flex flex-col bg-gray-800 w-full rounded-md mt-1 mb-4 border-[1px] border-gray-500 overflow-hidden'>
+    <div className='flex flex-col bg-gray-800 w-full rounded-md mt-1 mb-4 border-[1px] border-gray-500 overflow-hidden absolute'>
       {options.map((option, index) => (
         <button
           key={option}
@@ -62,6 +63,7 @@ function Options({
                 : 'border-b-[1px] border-b-gray-500 pb-2'
             }`}
           onClick={() => handleValue(option)}
+          type='button'
         >
           {option}
         </button>

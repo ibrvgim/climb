@@ -81,3 +81,9 @@
     clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 100% 100%, 100% 100%);
   }
 }
+
+/* GENERAL SETTINGS */
+input:focus,
+textarea:focus {
+  outline: 1px solid #818cf8;
+}
