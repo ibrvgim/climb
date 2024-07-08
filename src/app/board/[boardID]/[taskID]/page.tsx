@@ -31,7 +31,10 @@ function TaskPage() {
           <p className='text-gray-300 text-xs tracking-widest font-bold uppercase mb-4'>
             Status:
           </p>
-          <Select />
+
+          <div className='mb-10'>
+            <Select />
+          </div>
         </div>
       </div>
     </section>

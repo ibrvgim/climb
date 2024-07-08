@@ -29,7 +29,7 @@ function NewTaskPage() {
             <p className='text-gray-300 font-bold tracking-wider text-sm mb-2'>
               Choose Status
             </p>
-            <Select />
+            <Select position='absolute' />
           </div>
 
           <Button>Create Task</Button>

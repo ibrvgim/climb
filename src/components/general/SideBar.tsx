@@ -1,7 +1,5 @@
 import CreateNewTab from '../sidebar/CreateNewTab';
 import TabButton from '../sidebar/TabButton';
-import Button from './Button';
-import Input from './Input';
 import Logo from './Logo';
 
 function SideBar() {
@@ -18,11 +16,11 @@ function SideBar() {
 
         <ul className='flex flex-col gap-3 mt-7'>
           <li>
-            <TabButton title='Marketing Plans' link='/' isActive={true} />
+            <TabButton title='Marketing Plans' />
           </li>
 
           <li>
-            <TabButton title='Platform Plans' link='/' isActive={false} />
+            <TabButton title='Platform Plans' />
           </li>
 
           <li>

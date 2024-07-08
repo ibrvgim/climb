@@ -5,7 +5,13 @@ import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 
 const options = ['todo', 'doing', 'done'];
 
-function Select({ defaultValue }: { defaultValue?: string }) {
+function Select({
+  defaultValue,
+  position = '',
+}: {
+  defaultValue?: string;
+  position?: string;
+}) {
   const [show, setShow] = useState(false);
   const [value, setValue] = useState('');
 
@@ -23,9 +29,9 @@ function Select({ defaultValue }: { defaultValue?: string }) {
   }
 
   return (
-    <div className='relative w-96 relative'>
+    <div className='relative w-96'>
       <button
-        className='flex items-center justify-between text-gray-400 text-sm border-[1px] border-gray-500 px-4 h-10 rounded-md w-full'
+        className='flex items-center justify-between text-gray-400 text-[13px] border-[1px] border-gray-500 px-4 h-10 rounded-md w-full'
         onClick={handleShow}
         type='button'
       >
@@ -38,7 +44,13 @@ function Select({ defaultValue }: { defaultValue?: string }) {
         )}
       </button>
 
-      {show && <Options options={options} handleValue={handleValue} />}
+      {show && (
+        <Options
+          options={options}
+          handleValue={handleValue}
+          position={position}
+        />
+      )}
     </div>
   );
 }
@@ -46,12 +58,16 @@ function Select({ defaultValue }: { defaultValue?: string }) {
 function Options({
   options,
   handleValue,
+  position,
 }: {
   options: string[];
   handleValue: (data: string) => void;
+  position: string;
 }) {
   return (
-    <div className='flex flex-col bg-gray-800 w-full rounded-md mt-1 mb-4 border-[1px] border-gray-500 overflow-hidden absolute'>
+    <div
+      className={`flex flex-col bg-gray-800 w-full rounded-md mt-1 mb-10 border-[1px] border-gray-500 overflow-hidden ${position}`}
+    >
       {options.map((option, index) => (
         <button
           key={option}

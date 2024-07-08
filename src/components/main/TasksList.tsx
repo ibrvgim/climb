@@ -1,3 +1,4 @@
+import NoTasksCard from './NoTasksCard';
 import TaskCard from './TaskCard';
 import { FaRegDotCircle } from 'react-icons/fa';
 
@@ -19,11 +20,13 @@ function TasksList({ category, color }: Props) {
       </div>
 
       <div className='flex flex-col gap-3'>
-        <TaskCard />
-        <TaskCard />
-        <TaskCard />
+        <TaskCard title='Build UI dashboard for admins' />
+        <TaskCard title='Build UI dashboard for admins' />
+        <TaskCard title='Build UI dashboard for admins' />
+        <TaskCard title='Build UI dashboard for admins' />
+        <div className='mb-6'>&nbsp;</div>
       </div>
-      <div className='mb-6'>&nbsp;</div>
+      {/* <NoTasksCard /> */}
     </div>
   );
 }

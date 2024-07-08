@@ -8,7 +8,6 @@ function TasksContainer() {
         <TasksList category='Todo ( 4 )' color='text-red-400' />
         <TasksList category='In Progress ( 2 )' color='text-yellow-400' />
         <TasksList category='Done ( 3 )' color='text-green-400' />
-
         <AddNewColumn />
       </div>
     </section>

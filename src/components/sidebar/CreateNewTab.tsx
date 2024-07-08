@@ -14,7 +14,7 @@ function CreateNewTab() {
   return (
     <div>
       {show ? (
-        <form className='flex flex-col px-4 py-6 mx-9 mt-4 bg-gray-900 rounded-lg'>
+        <form className='flex flex-col px-4 py-5 mx-4 mt-4 bg-gray-900 rounded-lg'>
           <div className='flex items-center justify-between mb-5'>
             <p className='text-gray-300 font-extrabold tracking-wider text-xs uppercase'>
               Board Name

@@ -1,21 +1,27 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 import { FiLayout } from 'react-icons/fi';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
+import slugify from 'slugify';
 import TabSettings from './TabSettings';
 
-function TabButton({
-  title,
-  link,
-  isActive = false,
-}: {
-  title: string;
-  link: string;
-  isActive: boolean;
-}) {
+function TabButton({ title }: { title: string }) {
+  const [show, setShow] = useState(false);
+  const path = usePathname();
+  const slug = slugify(title, { lower: true });
+  const isActive = path.includes(slug);
+
+  function handleSettings() {
+    setShow((show) => !show);
+  }
+
   return (
     <div className='mr-10'>
       <Link
-        href={link}
+        href={`/board/${slug}`}
         className={`flex flex-row items-center justify-between pl-9 pr-5 py-2 rounded-r-full transition-all z-20 relative ${
           isActive
             ? 'bg-indigo-400 text-white'
@@ -30,13 +36,13 @@ function TabButton({
         </div>
 
         {isActive && (
-          <button className='text-lg'>
+          <button className='text-lg' onClick={handleSettings}>
             <HiOutlineDotsHorizontal />
           </button>
         )}
       </Link>
 
-      {/* {isActive && <TabSettings />} */}
+      {isActive && show && <TabSettings />}
     </div>
   );
 }

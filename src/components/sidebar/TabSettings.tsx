@@ -1,11 +1,11 @@
 function TabSettings() {
   return (
     <div className='flex gap-2 bg-gray-700 pb-4 pt-11 px-4 rounded-br-xl -mt-5'>
-      <SettingsButton style='border-[1px] border-indigo-400 text-indigo-400 hover:opacity-75'>
+      <SettingsButton style='border-indigo-400 text-indigo-400'>
         Edit
       </SettingsButton>
 
-      <SettingsButton style='border-[1px] border-red-500 text-red-500 hover:opacity-75'>
+      <SettingsButton style='border-red-500 text-red-500'>
         Delete
       </SettingsButton>
     </div>
@@ -21,7 +21,7 @@ function SettingsButton({
 }) {
   return (
     <button
-      className={`${style} flex-1 flex justify-center items-center w-full text-sm rounded-full transition-all`}
+      className={`${style} border-2 flex-1 flex justify-center font-medium items-center w-full text-sm rounded-full transition-all hover:opacity-75`}
     >
       {children}
     </button>
