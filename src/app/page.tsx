@@ -1,15 +1,19 @@
-'use client';
+import SigninForm from '@/components/auth/SigninForm';
+import SignupForm from '@/components/auth/SignupForm';
+import { getUser } from '@/data/auth/apiAuth';
+import { redirect } from 'next/navigation';
 
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: { auth: string };
+}) {
+  const user = await getUser();
+  if (user?.role === 'authenticated') redirect('/board/marketing-plans');
 
-export default function Home() {
-  const route = useRouter();
-
-  useEffect(() => {
-    route.replace('board/marketing-plans');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  return null;
+  return (
+    <section className='flex justify-center items-center pt-8 pb-20 px-12 bg-gray-900 text-white'>
+      {searchParams?.auth === 'signup' ? <SignupForm /> : <SigninForm />}
+    </section>
+  );
 }

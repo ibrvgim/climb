@@ -82,6 +82,67 @@
   }
 }
 
+/* MINI SPINNER (BUTTONS, etc.) */
+.loader-mini-red,
+.loader-mini {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  position: relative;
+  animation: pulse 1s linear infinite;
+}
+
+.loader-mini-red:after,
+.loader-mini:after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  animation: scaleUp 1s linear infinite;
+}
+
+.loader-mini-red {
+  border: 2px solid rgb(239 68 68);
+  width: 20px;
+  height: 20px;
+}
+
+.loader-mini-red:after {
+  border: 2px solid rgb(239 68 68);
+  width: 20px;
+  height: 20px;
+}
+
+@keyframes scaleUp {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+  }
+  60%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+@keyframes pulse {
+  0%,
+  60%,
+  100% {
+    transform: scale(1);
+  }
+  80% {
+    transform: scale(1.2);
+  }
+}
+
 /* GENERAL SETTINGS */
 input:focus,
 textarea:focus {

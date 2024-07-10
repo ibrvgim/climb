@@ -1,32 +1,31 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { BiSolidEditAlt } from 'react-icons/bi';
+import SignoutButton from './SignoutButton';
+import NavTitle from './NavTitle';
+import NewTaskButton from './NewTaskButton';
+import { UserType } from '@/types/type';
+import { useSearchParams } from 'next/navigation';
 
-function Navigation() {
-  const path = usePathname();
-  const isNewTaskPath = path.includes('new-task');
-  const isNewColumnPath = path.includes('new-column');
+function Navigation({ user }: { user: UserType | null }) {
+  const params = useSearchParams();
+  const auth = params.get('auth');
 
   return (
     <nav className='flex items-center justify-between px-8 bg-gray-800 text-white col-[2_/_-1] border-b-[1px] border-b-gray-600'>
-      <p className='text-xl tracking-wider font-bold text-gray-200'>
-        {isNewTaskPath
-          ? 'Create New Task'
-          : isNewColumnPath
-          ? 'Create New Column'
-          : 'Marketing Plans'}
-      </p>
-
-      {!isNewTaskPath && !isNewColumnPath && (
-        <Link
-          href={`${path}/new-task`}
-          className='flex items-center gap-2 bg-indigo-400 px-12 py-1 rounded-full text-sm font-bold tracking-wider hover:bg-indigo-500 transition-colors'
-        >
-          <BiSolidEditAlt className='text-base' />
-          New Task
-        </Link>
+      {user?.role === 'authenticated' ? (
+        <>
+          <NavTitle />
+          <div className='flex items-center gap-7'>
+            <NewTaskButton />
+            <SignoutButton />
+          </div>
+        </>
+      ) : (
+        <p className='tracking-wider font-extrabold text-gray-300 uppercase'>
+          {auth === 'signup'
+            ? 'Join Us Today - Start Your Journey!'
+            : 'Welcome Back - we are glad to see you again!'}
+        </p>
       )}
     </nav>
   );
