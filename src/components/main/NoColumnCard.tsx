@@ -24,7 +24,7 @@ function NoColumnCard() {
 
       <Link
         href={`${path}/new-column`}
-        className='px-6 py-2 border-2 border-indigo-400 rounded-lg text-sm text-gray-100 font-bold hover:opacity-80 transition-opacity'
+        className='px-6 py-2 border-2 border-indigo-400 rounded-lg text-sm text-indigo-300 font-bold hover:opacity-80 transition-opacity'
       >
         Create New Column
       </Link>

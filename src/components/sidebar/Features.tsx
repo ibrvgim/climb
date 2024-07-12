@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 function Features() {
   return (
-    <div className='flex flex-col items-center gap-16 mt-20'>
+    <div className='flex flex-col items-center justify-between mt-20 min-h-[80%]'>
       <div className='flex flex-col gap-7 items-center'>
         <Image
           src={SecureImage}
@@ -13,7 +13,9 @@ function Features() {
           width={100}
           height={100}
         />
-        <p className='uppercase text-gray-400 font-extrabold'>Fully Secure</p>
+        <p className='uppercase text-gray-400 font-extrabold text-sm tracking-wider'>
+          Fully Secure
+        </p>
       </div>
 
       <div className='flex flex-col gap-7 items-center'>
@@ -23,7 +25,7 @@ function Features() {
           width={100}
           height={100}
         />
-        <p className='uppercase text-gray-400 font-extrabold'>
+        <p className='uppercase text-gray-400 font-extrabold text-sm tracking-wider'>
           Available Anywhere
         </p>
       </div>
@@ -35,7 +37,9 @@ function Features() {
           width={100}
           height={100}
         />
-        <p className='uppercase text-gray-400 font-extrabold'>Manage Easily</p>
+        <p className='uppercase text-gray-400 font-extrabold text-sm tracking-wider'>
+          Manage Easily
+        </p>
       </div>
     </div>
   );

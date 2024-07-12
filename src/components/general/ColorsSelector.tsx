@@ -12,6 +12,13 @@ function ColorsSelector() {
 
   return (
     <div className='flex justify-between mt-4'>
+      <input
+        name='color'
+        value={selectedColor}
+        hidden
+        className='hidden'
+        readOnly
+      />
       <Color
         color='text-red-400'
         bgcolor='bg-red-400'

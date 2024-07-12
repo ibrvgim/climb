@@ -1,5 +1,5 @@
 // auth type
-interface CredentialsType {
+export interface CredentialsType {
   email: string;
   password: string;
 }
@@ -17,4 +17,17 @@ interface UserMetaData {
   firstName?: string;
   lastName?: string;
   phoneNumber?: string;
+}
+
+// boards type
+
+export interface BoardType {
+  userId: string;
+  boardName: string;
+  boardColumns: Columns[];
+}
+
+interface Columns {
+  title: string;
+  color: string;
 }

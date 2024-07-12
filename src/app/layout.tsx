@@ -3,8 +3,9 @@ import type { Metadata } from 'next';
 import { Nunito } from 'next/font/google';
 import Navigation from '@/components/general/Navigation';
 import { getUser } from '@/data/auth/apiAuth';
-import { UserType } from '@/types/type';
+import { BoardType, UserType } from '@/types/type';
 import SideBar from '@/components/sidebar/SideBar';
+import { getBoards } from '@/data/boards/apiBoards';
 
 const font = Nunito({
   subsets: ['latin'],
@@ -25,12 +26,13 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const user: UserType | null = await getUser();
+  const boards: BoardType[] = (user?.id && (await getBoards(user?.id))) || [];
 
   return (
     <html lang='en'>
       <body className={`${font.className} antialiased min-h-screen`}>
         <main className='grid grid-cols-[20rem_1fr] grid-rows-[6rem_1fr] min-h-screen bg-gray-900'>
-          <Navigation user={user} />
+          <Navigation user={user} boards={boards} />
           <SideBar user={user} />
           {children}
         </main>

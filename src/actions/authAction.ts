@@ -1,8 +1,16 @@
 'use server';
 
 import { emailRegex } from '@/constants/regex';
-import { logoutUser, signinUser, signupUser } from '@/data/auth/apiAuth';
+import {
+  getUser,
+  logoutUser,
+  signinUser,
+  signupUser,
+} from '@/data/auth/apiAuth';
+import { getBoards } from '@/data/boards/apiBoards';
+import { CredentialsType } from '@/types/type';
 import { redirect } from 'next/navigation';
+import slugify from 'slugify';
 
 const errors: CredentialsType = {
   email: '',
@@ -43,21 +51,26 @@ export async function signupAction(_: any, data: FormData) {
   const checkPassword = validPassword(password);
 
   if (checkEmail && checkPassword) {
-    const response = await signupUser(email, password);
-    if (response?.session) redirect('/board/marketing-plans');
-  } else return errors;
+    await signupUser(email, password);
+  }
 }
 
 export async function signinAction(_: any, data: FormData) {
   const email = data.get('email') as string;
   const password = data.get('password') as string;
+  const user = await getUser();
+  const boards: any = user?.id && (await getBoards(user?.id));
+  const allBoards: string[] = boards?.map(
+    (item: { boardName: string }) => item.boardName
+  );
 
   const checkEmail = validEmail(email);
   const checkPassword = validPassword(password);
 
   if (checkEmail && checkPassword) {
     const response = await signinUser(email, password);
-    if (response?.session) redirect('/board/marketing-plans');
+    if (response?.session && allBoards?.[0])
+      redirect(`/board/${slugify(allBoards?.[0], { lower: true })}`);
   } else return errors;
 }
 

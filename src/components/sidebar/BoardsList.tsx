@@ -1,21 +1,26 @@
+import { getBoards } from '@/data/boards/apiBoards';
 import CreateNewTab from './CreateNewTab';
 import TabButton from './TabButton';
+import { getUser } from '@/data/auth/apiAuth';
 
-function BoardsList() {
+async function BoardsList() {
+  const user = await getUser();
+  if (!user?.id) return;
+  const boards = await getBoards(user?.id);
+  const allBoards: string[] = boards.map((item) => item.boardName);
+
   return (
     <div className='mt-16'>
       <p className='text-gray-500 text-[15px] font-bold tracking-wide px-9'>
-        All Boards ( 7 )
+        All Boards ( {allBoards.length} )
       </p>
 
       <ul className='flex flex-col gap-3 mt-7'>
-        <li>
-          <TabButton title='Marketing Plans' />
-        </li>
-
-        <li>
-          <TabButton title='Platform Plans' />
-        </li>
+        {allBoards.map((item) => (
+          <li key={item} className='capitalize'>
+            <TabButton title={item} />
+          </li>
+        ))}
 
         <li>
           <CreateNewTab />
