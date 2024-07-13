@@ -4,6 +4,7 @@ import { getUser } from '@/data/auth/apiAuth';
 import { getBoards } from '@/data/boards/apiBoards';
 import { redirect } from 'next/navigation';
 import slugify from 'slugify';
+import Link from 'next/link';
 
 async function BoardPage() {
   const user = await getUser();
@@ -19,14 +20,22 @@ async function BoardPage() {
       <Image
         src={BoardImage}
         alt='journey image'
-        width={400}
-        height={400}
+        width={360}
+        height={360}
         draggable={false}
       />
 
       <p className='text-4xl text-gray-300 font-bold mt-14 mb-10 tracking-wider'>
         Start managing tasks by creating boards.
       </p>
+
+      <Link
+        href={`/board/?action=create-board`}
+        className='flex items-center gap-2 border-2 border-indigo-400 px-8 py-1 rounded-md text-[13px] text-indigo-300 font-bold tracking-wider 
+        hover:opacity-80 transition-opacity mt-6'
+      >
+        Create New Board
+      </Link>
     </div>
   );
 }

@@ -2,7 +2,12 @@
 
 import { symbolsRegex } from '@/constants/regex';
 import { getUser } from '@/data/auth/apiAuth';
-import { createBoard, deleteBoard, getBoards } from '@/data/boards/apiBoards';
+import {
+  createBoard,
+  deleteBoard,
+  getBoards,
+  updateBoardById,
+} from '@/data/boards/apiBoards';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import slugify from 'slugify';
@@ -15,10 +20,16 @@ const error = {
 export async function createBoardAction(_: any, data: FormData) {
   const user = await getUser();
   if (!user?.id) redirect('/');
+  const currentBoardName = data.get('currentBoardName') as string;
   const boardName = data.get('boardName') as string;
+  const action = data.get('action') as string;
 
   const boards = await getBoards(user?.id);
   const allBoards: string[] = boards.map((item) => item.boardName);
+
+  const boardId = boards.find(
+    (item) => slugify(item.boardName, { lower: true }) === currentBoardName
+  )?.id;
 
   if (!boardName || boardName.trim() === '') {
     error.boardName = 'Must be filled in';
@@ -34,9 +45,15 @@ export async function createBoardAction(_: any, data: FormData) {
     return error;
   }
 
-  await createBoard(user?.id, boardName.toLowerCase());
+  if (action === 'edit-board') {
+    await updateBoardById(boardId, {
+      boardName: boardName.toLowerCase(),
+    });
+  } else {
+    await createBoard(user?.id, boardName.toLowerCase());
+  }
   revalidatePath('/');
-  redirect(`board/${slugify(boardName, { lower: true })}`);
+  redirect(`/board/${slugify(boardName, { lower: true })}`);
 }
 
 // DELETE BOARD
@@ -53,6 +70,6 @@ export async function deleteBoardAction(data: FormData) {
   const nextBoard = boards.map((item) => item.boardName);
 
   if (nextBoard?.length > 0)
-    redirect(`board/${slugify(nextBoard?.[0], { lower: true })}`);
+    redirect(`/board/${slugify(nextBoard?.[0], { lower: true })}`);
   if (boards.length === 0) redirect('/board');
 }

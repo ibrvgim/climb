@@ -52,6 +52,7 @@ export async function signupAction(_: any, data: FormData) {
 
   if (checkEmail && checkPassword) {
     await signupUser(email, password);
+    redirect('/board');
   }
 }
 

@@ -42,6 +42,19 @@ export async function updateBoard(
   return data;
 }
 
+export async function updateBoardById(boardId: string, updatedBoard: any) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from('boards')
+    .update(updatedBoard)
+    .eq('id', boardId)
+    .select();
+
+  if (error) throw new Error(error?.message);
+  return data;
+}
+
 export async function deleteBoard(userId: string, boardName: string) {
   const supabase = createClient();
 

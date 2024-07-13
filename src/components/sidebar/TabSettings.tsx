@@ -1,6 +1,7 @@
 'use client';
 
 import { deleteBoardAction } from '@/actions/boardsAction';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
 function TabSettings() {
@@ -8,11 +9,13 @@ function TabSettings() {
 
   return (
     <div className='flex gap-2 bg-gray-700 pb-4 pt-11 px-4 rounded-br-xl -mt-5'>
-      <form className='flex-1'>
-        <SettingsButton style='border-indigo-400 text-indigo-400'>
-          Edit
-        </SettingsButton>
-      </form>
+      <Link
+        href={`${params?.boardID}/?action=edit-board`}
+        className='border-indigo-400 text-indigo-400 border-2 flex-1 flex justify-center font-medium items-center 
+          w-full text-sm rounded-full transition-all hover:opacity-75'
+      >
+        Edit
+      </Link>
 
       <form className='flex-1' action={deleteBoardAction}>
         <input

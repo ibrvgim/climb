@@ -16,7 +16,7 @@ function NoTasksCard() {
       </p>
       <Link
         href={`${path}/new-task`}
-        className='flex items-center gap-2 border-2 border-indigo-400 px-8 py-1 rounded-md text-[13px] text-gray-200 font-bold tracking-wider 
+        className='flex items-center gap-2 border-2 border-indigo-400 px-8 py-1 rounded-md text-[13px] text-indigo-300 font-bold tracking-wider 
         hover:opacity-80 transition-opacity mt-6'
       >
         Create New Task

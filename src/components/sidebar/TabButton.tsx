@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { FiLayout } from 'react-icons/fi';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
@@ -11,8 +11,11 @@ import TabSettings from './TabSettings';
 function TabButton({ title }: { title: string }) {
   const [show, setShow] = useState(false);
   const path = usePathname();
+  const searchParams = useSearchParams();
+  const action = searchParams.get('action');
   const slug = slugify(title, { lower: true });
-  const isActive = path.includes(slug);
+  const isActive = path.split('/')?.[2] === slug;
+  const shortenTitle = title.length > 19 ? `${title.slice(0, 19)}...` : title;
 
   function handleSettings() {
     setShow((show) => !show);
@@ -32,7 +35,7 @@ function TabButton({ title }: { title: string }) {
           <div className='text-[17px]'>
             <FiLayout />
           </div>
-          <p className='font-bold text-sm tracking-wider'>{title}</p>
+          <p className='font-bold text-sm tracking-wider'>{shortenTitle}</p>
         </div>
 
         {isActive && (
@@ -42,7 +45,7 @@ function TabButton({ title }: { title: string }) {
         )}
       </Link>
 
-      {isActive && show && <TabSettings />}
+      {isActive && show && action !== 'edit-board' && <TabSettings />}
     </div>
   );
 }
