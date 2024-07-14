@@ -3,14 +3,14 @@
 import { useEffect, useState } from 'react';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 
-const options = ['todo', 'doing', 'done'];
-
 function Select({
   defaultValue,
   position = '',
+  options,
 }: {
   defaultValue?: string;
   position?: string;
+  options: string[];
 }) {
   const [show, setShow] = useState(false);
   const [value, setValue] = useState('');
@@ -30,6 +30,7 @@ function Select({
 
   return (
     <div className='relative w-96'>
+      <input name='status' value={value} hidden className='hidden' readOnly />
       <button
         className='flex items-center justify-between text-gray-400 text-[13px] border-[1px] border-gray-500 px-4 h-10 rounded-md w-full'
         onClick={handleShow}

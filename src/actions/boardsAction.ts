@@ -28,7 +28,12 @@ export async function createBoardAction(_: any, data: FormData) {
   const allBoards: string[] = boards.map((item) => item.boardName);
 
   const boardId = boards.find(
-    (item) => slugify(item.boardName, { lower: true }) === currentBoardName
+    (item) =>
+      slugify(item.boardName, {
+        lower: true,
+        trim: true,
+        remove: symbolsRegex,
+      }) === currentBoardName
   )?.id;
 
   if (!boardName || boardName.trim() === '') {
@@ -43,6 +48,8 @@ export async function createBoardAction(_: any, data: FormData) {
   } else if (allBoards.includes(boardName.toLowerCase())) {
     error.boardName = 'Already exist';
     return error;
+  } else {
+    error.boardName = '';
   }
 
   if (action === 'edit-board') {
@@ -53,7 +60,13 @@ export async function createBoardAction(_: any, data: FormData) {
     await createBoard(user?.id, boardName.toLowerCase());
   }
   revalidatePath('/');
-  redirect(`/board/${slugify(boardName, { lower: true })}`);
+  redirect(
+    `/board/${slugify(boardName, {
+      lower: true,
+      trim: true,
+      remove: symbolsRegex,
+    })}`
+  );
 }
 
 // DELETE BOARD
@@ -70,6 +83,12 @@ export async function deleteBoardAction(data: FormData) {
   const nextBoard = boards.map((item) => item.boardName);
 
   if (nextBoard?.length > 0)
-    redirect(`/board/${slugify(nextBoard?.[0], { lower: true })}`);
+    redirect(
+      `/board/${slugify(nextBoard?.[0], {
+        lower: true,
+        trim: true,
+        remove: symbolsRegex,
+      })}`
+    );
   if (boards.length === 0) redirect('/board');
 }

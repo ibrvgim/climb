@@ -33,7 +33,7 @@ function TaskPage() {
           </p>
 
           <div className='mb-10'>
-            <Select />
+            <Select options={['todo', 'doing', 'done']} />
           </div>
         </div>
       </div>

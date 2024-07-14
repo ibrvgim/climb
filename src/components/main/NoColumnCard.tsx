@@ -18,8 +18,13 @@ function NoColumnCard() {
         draggable={false}
       />
 
-      <p className='text-2xl text-gray-300 font-bold mt-14 mb-10'>
+      <p className='text-2xl text-gray-300 font-bold mt-14 mb-2'>
         No columns yet. Start by creating a new column.
+      </p>
+
+      <p className='text-md text-gray-400 font-bold mb-10'>
+        <span className='text-red-500'>*note:</span> you are not able to create
+        task without column.
       </p>
 
       <Link

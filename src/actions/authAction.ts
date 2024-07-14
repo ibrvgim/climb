@@ -1,6 +1,6 @@
 'use server';
 
-import { emailRegex } from '@/constants/regex';
+import { emailRegex, symbolsRegex } from '@/constants/regex';
 import {
   getUser,
   logoutUser,
@@ -8,6 +8,7 @@ import {
   signupUser,
 } from '@/data/auth/apiAuth';
 import { getBoards } from '@/data/boards/apiBoards';
+import { createTasks } from '@/data/tasks/apiTasks';
 import { CredentialsType } from '@/types/type';
 import { redirect } from 'next/navigation';
 import slugify from 'slugify';
@@ -51,7 +52,8 @@ export async function signupAction(_: any, data: FormData) {
   const checkPassword = validPassword(password);
 
   if (checkEmail && checkPassword) {
-    await signupUser(email, password);
+    const response = await signupUser(email, password);
+    if (response?.user) await createTasks(response?.user?.id);
     redirect('/board');
   }
 }
@@ -71,7 +73,13 @@ export async function signinAction(_: any, data: FormData) {
   if (checkEmail && checkPassword) {
     const response = await signinUser(email, password);
     if (response?.session && allBoards?.[0])
-      redirect(`/board/${slugify(allBoards?.[0], { lower: true })}`);
+      redirect(
+        `/board/${slugify(allBoards?.[0], {
+          lower: true,
+          trim: true,
+          remove: symbolsRegex,
+        })}`
+      );
   } else return errors;
 }
 

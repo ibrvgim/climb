@@ -22,8 +22,6 @@ function TasksList({ category, color }: Props) {
       <div className='flex flex-col gap-3'>
         <TaskCard title='Build UI dashboard for admins' />
         <TaskCard title='Build UI dashboard for admins' />
-        <TaskCard title='Build UI dashboard for admins' />
-        <TaskCard title='Build UI dashboard for admins' />
         <div className='mb-6'>&nbsp;</div>
       </div>
       {/* <NoTasksCard /> */}
@@ -32,3 +30,11 @@ function TasksList({ category, color }: Props) {
 }
 
 export default TasksList;
+
+const task = {
+  title: '',
+  description: '',
+  subtasks: [{ id: '', text: '' }],
+  status: '',
+  board: '',
+};

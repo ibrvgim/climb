@@ -1,5 +1,6 @@
 'use server';
 
+import { symbolsRegex } from '@/constants/regex';
 import { getUser } from '@/data/auth/apiAuth';
 import { getBoards, updateBoard } from '@/data/boards/apiBoards';
 import { BoardType } from '@/types/type';
@@ -52,5 +53,11 @@ export async function createColumnAction(_: any, data: FormData) {
     boardColumns: [...allColumns, { title: title.toLowerCase(), color }],
   });
   revalidatePath('/');
-  redirect(`/board/${slugify(boardName, { lower: true })}`);
+  redirect(
+    `/board/${slugify(boardName, {
+      lower: true,
+      trim: true,
+      remove: symbolsRegex,
+    })}`
+  );
 }
