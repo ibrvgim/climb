@@ -5,7 +5,7 @@ import TaskImage from '../../../public/images/task.svg';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-function NoTasksCard() {
+function NoTasksCard({ category }: { category: string }) {
   const path = usePathname();
 
   return (
@@ -15,7 +15,7 @@ function NoTasksCard() {
         No Task
       </p>
       <Link
-        href={`${path}/new-task`}
+        href={`${path}/new-task/?status=${category}`}
         className='flex items-center gap-2 border-2 border-indigo-400 px-8 py-1 rounded-md text-[13px] text-indigo-300 font-bold tracking-wider 
         hover:opacity-80 transition-opacity mt-6'
       >

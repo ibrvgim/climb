@@ -5,8 +5,17 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import slugify from 'slugify';
 
-function TaskCard({ title }: { title: string }) {
+function TaskCard({
+  title,
+  subtasks,
+}: {
+  title: string;
+  subtasks: string[] | null[];
+}) {
   const path = usePathname();
+  const validSubtasks = subtasks?.filter(
+    (item: string | null) => item !== null
+  ).length;
 
   return (
     <Link
@@ -20,7 +29,14 @@ function TaskCard({ title }: { title: string }) {
       <p className='text-gray-300 font-bold tracking-wide text-[15px]'>
         {title}
       </p>
-      <p className='text-gray-400 text-sm mt-1'>0 of 3 subtasks</p>
+
+      {validSubtasks > 0 ? (
+        <p className='text-gray-400 text-sm mt-1'>
+          0 of {validSubtasks} subtasks
+        </p>
+      ) : (
+        <p className='text-gray-400 text-sm mt-1'>No subtasks</p>
+      )}
     </Link>
   );
 }

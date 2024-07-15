@@ -1,3 +1,8 @@
+// errors type
+export interface ErrorsType {
+  [key: string]: string | undefined;
+}
+
 // auth type
 export interface CredentialsType {
   email: string;
@@ -20,7 +25,6 @@ interface UserMetaData {
 }
 
 // boards type
-
 export interface BoardType {
   userId: string;
   boardName: string;
@@ -30,4 +34,13 @@ export interface BoardType {
 interface Columns {
   title: string;
   color: string;
+}
+
+// tasks type
+export interface TaskType {
+  title: string;
+  description: string;
+  status: string;
+  boardName: string;
+  subtasks: string[] | null[];
 }

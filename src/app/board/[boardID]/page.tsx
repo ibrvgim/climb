@@ -22,7 +22,7 @@ async function BoardItemPage({ params }: { params: { boardID: string } }) {
       currentColumn?.boardColumns.length === 0 ? (
         <NoColumnCard />
       ) : (
-        <TasksContainer currentColumn={currentColumn} />
+        <TasksContainer currentColumn={currentColumn} user={user} />
       )}
     </section>
   );

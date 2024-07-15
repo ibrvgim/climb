@@ -2,16 +2,22 @@ interface Props {
   title: string;
   name: string;
   placeholder: string;
+  error?: string;
 }
 
-function Textarea({ title, name, placeholder }: Props) {
+function Textarea({ title, name, placeholder, error }: Props) {
   return (
     <div className='flex flex-col items-start gap-2'>
       <label
         htmlFor={name}
-        className='text-gray-300 font-bold tracking-wider text-sm'
+        className='text-gray-300 font-bold tracking-wider text-sm flex items-center w-full'
       >
-        {title}
+        {title}{' '}
+        {error && (
+          <span className='ml-auto text-xs text-red-500 font-semibold'>
+            {error}
+          </span>
+        )}
       </label>
 
       <textarea
