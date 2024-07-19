@@ -1,5 +1,6 @@
 'use client';
 
+import { checkSubtasksAction } from '@/actions/tasksAction';
 import { useEffect, useState } from 'react';
 
 function Checkbox({
@@ -20,26 +21,29 @@ function Checkbox({
   }
 
   return (
-    <div className='flex items-center gap-3'>
-      <div className='custom-checkbox'>
-        <label>
-          <input
-            type='checkbox'
-            name='cb'
-            checked={check}
-            onChange={handleCheck}
-            defaultChecked={defaultCheck}
-          />
-        </label>
-      </div>
-      <span
-        className={`text-gray-400 text-[15px] ${check ? 'line-through' : ''}`}
-        role='button'
-        onClick={handleCheck}
-      >
-        {children}
-      </span>
-    </div>
+    <form className='flex items-center gap-3' action={checkSubtasksAction}>
+      <button className='flex items-center gap-3'>
+        <div className='custom-checkbox'>
+          <label>
+            <input
+              type='checkbox'
+              name='cb'
+              checked={check}
+              onChange={handleCheck}
+              defaultChecked={defaultCheck}
+            />
+          </label>
+        </div>
+
+        <span
+          className={`text-gray-400 text-[15px] ${check ? 'line-through' : ''}`}
+          role='button'
+          onClick={handleCheck}
+        >
+          {children}
+        </span>
+      </button>
+    </form>
   );
 }
 

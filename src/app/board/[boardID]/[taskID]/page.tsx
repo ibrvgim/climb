@@ -2,30 +2,56 @@ import GoBack from '@/components/general/GoBack';
 import Select from '@/components/general/Select';
 import SubtasksCard from '@/components/main/SubtasksCard';
 import TaskActionButtons from '@/components/main/TaskActionButtons';
+import { symbolsRegex } from '@/constants/regex';
+import { getUser } from '@/data/auth/apiAuth';
+import { getBoards } from '@/data/boards/apiBoards';
+import { getTasks } from '@/data/tasks/apiTasks';
+import { TaskType } from '@/types/type';
+import { notFound } from 'next/navigation';
+import slugify from 'slugify';
 
-function TaskPage() {
+async function TaskPage({
+  params: { boardID, taskID },
+}: {
+  params: { boardID: string; taskID: string };
+}) {
+  const user = await getUser();
+  if (!user?.id) return;
+  const [tasks] = await getTasks(user.id);
+  const boards = await getBoards(user.id);
+  const allColumns = boards
+    .find(
+      (item) =>
+        slugify(item.boardName, {
+          lower: true,
+          remove: symbolsRegex,
+          trim: true,
+        }) === boardID
+    )
+    ?.boardColumns.map((item: { title: string }) => item.title);
+
+  const currentTask: TaskType = tasks.tasks.find(
+    (item: TaskType) =>
+      item.id === taskID && slugify(item.boardName, { lower: true }) === boardID
+  );
+
+  if (!currentTask) notFound();
   return (
     <section className='py-8 px-12 bg-gray-900 text-white'>
       <div className='flex items-center justify-between'>
         <GoBack />
-        <TaskActionButtons />
+        <TaskActionButtons taskID={taskID} />
       </div>
 
       <div className='mt-12'>
         <p className='font-bold text-2xl text-gray-300 tracking-wider mb-4'>
-          Build UI dashboard for admins
+          {currentTask?.title}
         </p>
         <p className='text-gray-400 text-[15px] leading-relaxed tracking-wide text-justify'>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sint
-          et neque, sunt ab sed autem in soluta officiis quidem? Doloribus,
-          optio consequuntur explicabo voluptate nihil delectus tenetur fugiat.
-          Enim. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab
-          minima quas cumque quis? Officia, perferendis! Similique nostrum
-          veniam ab illum, dolorem recusandae dolore inventore, suscipit numquam
-          et dolores cum nulla?
+          {currentTask?.description}
         </p>
 
-        <SubtasksCard />
+        <SubtasksCard subtasks={currentTask.subtasks} />
 
         <div className='mt-10'>
           <p className='text-gray-300 text-xs tracking-widest font-bold uppercase mb-4'>
@@ -33,7 +59,7 @@ function TaskPage() {
           </p>
 
           <div className='mb-10'>
-            <Select options={['todo', 'doing', 'done']} />
+            <Select options={allColumns} defaultValue={currentTask.status} />
           </div>
         </div>
       </div>

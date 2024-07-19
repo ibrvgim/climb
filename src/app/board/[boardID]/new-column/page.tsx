@@ -7,7 +7,13 @@ import GoBack from '@/components/general/GoBack';
 import Input from '@/components/general/Input';
 import { useFormState } from 'react-dom';
 
-function NewColumnPage({ params }: { params: { boardID: string } }) {
+function NewColumnPage({
+  params,
+  searchParams,
+}: {
+  params: { boardID: string };
+  searchParams: { editColumn: string; color: string };
+}) {
   const [state, formAction] = useFormState(createColumnAction, {
     title: '',
     color: '',
@@ -30,21 +36,39 @@ function NewColumnPage({ params }: { params: { boardID: string } }) {
             className='hidden'
             readOnly
           />
+
+          <input
+            name='editColumn'
+            value={searchParams.editColumn}
+            hidden
+            className='hidden'
+            readOnly
+          />
+
           <Input
             title='Column Name'
             name='title'
             placeholder='ex. Build Settings UI'
             error={state?.title}
+            defaultValue={
+              searchParams?.editColumn
+                ? searchParams?.editColumn.split('-').join(' ')
+                : ''
+            }
           />
 
-          <ColorsSelector />
+          <ColorsSelector defaultValue={searchParams?.color} />
           {state?.color && (
             <span className='ml-auto text-[13px] text-red-500 font-semibold'>
               {state?.color}
             </span>
           )}
 
-          <Button>Create New Column</Button>
+          <Button>
+            {searchParams.editColumn
+              ? 'Save Column Changes'
+              : 'Create New Column'}
+          </Button>
           {state?.general && (
             <span className='ml-auto text-[13px] text-red-500 font-semibold mt-2 tracking-wider'>
               {state?.general}

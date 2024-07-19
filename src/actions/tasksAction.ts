@@ -2,7 +2,7 @@
 
 import { getUser } from '@/data/auth/apiAuth';
 import { getTasks, updateTasks } from '@/data/tasks/apiTasks';
-import { ErrorsType } from '@/types/type';
+import { ErrorsType, TaskType } from '@/types/type';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import slugify from 'slugify';
@@ -49,16 +49,17 @@ export async function createTaskAction(_: any, data: FormData) {
     await updateTasks(user?.id, {
       tasks: [
         {
+          id: Date.now().toString(),
           title,
           description,
           status,
           boardName,
           subtasks: [
-            subtaskOne,
-            subtaskTwo,
-            subtaskThree,
-            subtaskFour,
-            subtaskFive,
+            { title: subtaskOne, checked: false },
+            { title: subtaskTwo, checked: false },
+            { title: subtaskThree, checked: false },
+            { title: subtaskFour, checked: false },
+            { title: subtaskFive, checked: false },
           ],
         },
         ...allCurrentTasks,
@@ -68,4 +69,23 @@ export async function createTaskAction(_: any, data: FormData) {
     revalidatePath('/board');
     redirect(`/board/${slugify(boardName, { lower: true, trim: true })}`);
   }
+}
+
+export async function checkSubtasksAction(data: FormData) {
+  console.log(data);
+}
+
+export async function deleteTaskAction(data: FormData) {
+  const user = await getUser();
+  const taskID = data.get('taskID') as string;
+  if (!taskID || !user?.id) return;
+  const [tasks] = await getTasks(user.id);
+
+  const filterTasks: TaskType[] = tasks?.tasks.filter(
+    (item: TaskType) => item.id !== taskID
+  );
+
+  await updateTasks(user?.id, { tasks: filterTasks });
+  revalidatePath('/board');
+  redirect('/board');
 }

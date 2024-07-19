@@ -38,9 +38,15 @@ interface Columns {
 
 // tasks type
 export interface TaskType {
+  id: string;
   title: string;
   description: string;
   status: string;
   boardName: string;
-  subtasks: string[] | null[];
+  subtasks: SubtaskType[] | null[];
+}
+
+export interface SubtaskType {
+  title: string;
+  checked: boolean;
 }

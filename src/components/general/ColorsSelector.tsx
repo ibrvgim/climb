@@ -1,9 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-function ColorsSelector() {
+function ColorsSelector({ defaultValue }: { defaultValue?: string }) {
   const [selectedColor, setSelectedColor] = useState('');
+
+  useEffect(() => {
+    if (defaultValue) setSelectedColor(defaultValue);
+  }, [defaultValue]);
 
   function handleChooseColor(chosenColor: string) {
     if (selectedColor === chosenColor) setSelectedColor('');
