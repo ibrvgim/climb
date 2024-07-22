@@ -3,13 +3,17 @@
 import Image from 'next/image';
 import TaskImage from '../../../public/images/task.svg';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { deleteColumnAction } from '@/actions/columnsAction';
 
-function NoTasksCard({ category }: { category: string }) {
-  const path = usePathname();
-  const boardName = path.split('/')?.[2].split('-').join(' ');
-
+function NoTasksCard({
+  category,
+  path,
+  boardName,
+}: {
+  category: string;
+  path: string;
+  boardName: string;
+}) {
   return (
     <div className='py-12 w-80 min-h-[calc(100dvh-13rem)] border-2 border-indigo-400 border-dashed rounded-lg flex flex-col justify-center items-center'>
       <Image

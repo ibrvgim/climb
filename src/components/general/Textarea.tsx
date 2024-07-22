@@ -3,9 +3,10 @@ interface Props {
   name: string;
   placeholder: string;
   error?: string;
+  defaultValue?: string;
 }
 
-function Textarea({ title, name, placeholder, error }: Props) {
+function Textarea({ title, name, placeholder, error, defaultValue }: Props) {
   return (
     <div className='flex flex-col items-start gap-2'>
       <label
@@ -24,6 +25,7 @@ function Textarea({ title, name, placeholder, error }: Props) {
         id={name}
         name={name}
         placeholder={placeholder}
+        defaultValue={defaultValue}
         className='min-h-36 text-sm text-gray-300 placeholder:text-gray-600 rounded-md px-3 py-2 
         border-[1px] border-gray-500 bg-transparent w-full'
       ></textarea>

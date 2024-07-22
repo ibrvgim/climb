@@ -3,7 +3,8 @@
 import Input from './Input';
 import { IoClose } from 'react-icons/io5';
 import OutlineButton from './OutlineButton';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { SubtaskType } from '@/types/type';
 
 const placeholders = [
   'Finish User UI',
@@ -13,15 +14,24 @@ const placeholders = [
   'Start Search Page',
 ];
 
-function OptionalSubtasks() {
-  const [subtasks, setSubtasks] = useState<string[]>([]);
+function OptionalSubtasks({
+  defaultOptions,
+}: {
+  defaultOptions?: SubtaskType[];
+}) {
+  const [subtasks, setSubtasks] = useState<SubtaskType[]>([]);
+  const id = crypto.randomUUID().slice(0, 7).toString();
 
-  function handleNewSubtask(newItem: string) {
+  useEffect(() => {
+    if (defaultOptions) setSubtasks(defaultOptions);
+  }, [defaultOptions]);
+
+  function handleNewSubtask(newItem: SubtaskType) {
     if (subtasks.length < 5) setSubtasks((item) => [...item, newItem]);
   }
 
-  function removeSubtask(id: string | number) {
-    setSubtasks(subtasks?.filter((item) => item !== id));
+  function removeSubtask(deleteItem: string) {
+    setSubtasks(subtasks?.filter((item) => item.id !== deleteItem));
   }
 
   return (
@@ -31,19 +41,20 @@ function OptionalSubtasks() {
       </p>
 
       <div className='flex flex-col gap-2 mb-2'>
-        {subtasks?.map((item) => (
-          <div key={item} className='flex gap-1 items-center'>
+        {subtasks?.map((item, index) => (
+          <div key={item.id} className='flex gap-1 items-center'>
             <div className='flex-1'>
               <Input
-                name={`subtask-${item}`}
-                placeholder={`ex. ${placeholders[Number(item) - 1]}`}
+                name={`subtask-${index + 1}`}
+                placeholder={`ex. ${placeholders[Number(index)]}`}
+                defaultValue={item?.title}
               />
             </div>
 
             <button
               type='button'
               className='text-gray-400 text-xl hover:text-red-400 transition-all'
-              onClick={() => removeSubtask(item)}
+              onClick={() => removeSubtask(item.id)}
             >
               <IoClose />
             </button>
@@ -53,7 +64,9 @@ function OptionalSubtasks() {
 
       {subtasks.length < 5 && (
         <OutlineButton
-          handleClick={() => handleNewSubtask(String(subtasks.length + 1))}
+          handleClick={() =>
+            handleNewSubtask({ id: id, title: '', checked: false })
+          }
         >
           Add New Subtask
         </OutlineButton>

@@ -8,16 +8,18 @@ function SubtasksCard({ subtasks }: { subtasks: SubtaskType[] | null[] }) {
         Subtasks:
       </p>
 
-      <ul className='flex flex-col gap-1'>
-        {subtasks.map(
-          (item) =>
-            item?.title && (
-              <li key={item.title} className='flex items-center gap-3'>
-                <Checkbox defaultCheck={item.checked}>{item.title}</Checkbox>
-              </li>
-            )
-        )}
-      </ul>
+      {subtasks.filter((item) => item?.title !== null).length > 0 && (
+        <ul className='flex flex-col gap-1'>
+          {subtasks.map(
+            (item) =>
+              item?.title && (
+                <li key={item.title} className='flex items-center gap-3'>
+                  <Checkbox defaultCheck={item.checked}>{item.title}</Checkbox>
+                </li>
+              )
+          )}
+        </ul>
+      )}
     </div>
   );
 }

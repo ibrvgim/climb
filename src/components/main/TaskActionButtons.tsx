@@ -1,16 +1,24 @@
 import { deleteTaskAction } from '@/actions/tasksAction';
+import Link from 'next/link';
 
-function TaskActionButtons({ taskID }: { taskID: string }) {
+function TaskActionButtons({
+  taskID,
+  boardID,
+  status,
+}: {
+  taskID: string;
+  boardID: string;
+  status: string;
+}) {
   return (
     <div className='flex items-center gap-2'>
-      <form>
-        <button
-          className='flex-1 flex justify-center items-center text-sm rounded-full border-2 w-32
+      <Link
+        href={`/board/${boardID}/new-task/?taskID=${taskID}&status=${status}`}
+        className='flex-1 flex justify-center items-center text-sm rounded-full border-2 w-32
         border-indigo-400 text-indigo-400 hover:opacity-75 transition-all font-semibold tracking-wider'
-        >
-          Edit
-        </button>
-      </form>
+      >
+        Edit
+      </Link>
 
       <form action={deleteTaskAction}>
         <input

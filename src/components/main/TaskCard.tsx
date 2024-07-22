@@ -36,7 +36,9 @@ function TaskCard({
           {checkedSubtasks} of {validSubtasks} subtasks
         </p>
       ) : (
-        <p className='text-gray-400 text-sm mt-1'>No subtasks</p>
+        <p className='text-gray-400 text-sm tracking-wider mt-1'>
+          No Subtasks.
+        </p>
       )}
     </Link>
   );

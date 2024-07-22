@@ -55,7 +55,7 @@ export async function signupAction(_: any, data: FormData) {
     const response = await signupUser(email, password);
     if (response?.user) await createTasks(response?.user?.id);
     redirect('/board');
-  }
+  } else return errors;
 }
 
 export async function signinAction(_: any, data: FormData) {

@@ -1,6 +1,5 @@
 'use client';
 
-import { checkSubtasksAction } from '@/actions/tasksAction';
 import { useEffect, useState } from 'react';
 
 function Checkbox({
@@ -21,7 +20,7 @@ function Checkbox({
   }
 
   return (
-    <form className='flex items-center gap-3' action={checkSubtasksAction}>
+    <form className='flex items-center gap-3'>
       <button className='flex items-center gap-3'>
         <div className='custom-checkbox'>
           <label>

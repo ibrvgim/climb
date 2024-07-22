@@ -4,7 +4,7 @@ import SignoutButton from './SignoutButton';
 import NavTitle from './NavTitle';
 import NewTaskButton from './NewTaskButton';
 import { BoardType, UserType } from '@/types/type';
-import { useSearchParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 
 function Navigation({
   user,
@@ -13,8 +13,9 @@ function Navigation({
   user: UserType | null;
   boards: BoardType[];
 }) {
-  const params = useSearchParams();
-  const auth = params.get('auth');
+  const searchParams = useSearchParams();
+  const params = useParams();
+  const auth = searchParams.get('auth');
 
   return (
     <nav className='flex items-center justify-between px-8 bg-gray-800 text-white col-[2_/_-1] border-b-[1px] border-b-gray-600'>
@@ -22,7 +23,7 @@ function Navigation({
         <>
           <NavTitle boards={boards} />
           <div className='flex items-center gap-10'>
-            <NewTaskButton boards={boards} />
+            {!params.taskID && <NewTaskButton boards={boards} />}
             <SignoutButton />
           </div>
         </>

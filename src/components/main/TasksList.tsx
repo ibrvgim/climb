@@ -4,10 +4,10 @@ import { usePathname } from 'next/navigation';
 import NoTasksCard from './NoTasksCard';
 import TaskCard from './TaskCard';
 import { FaRegDotCircle } from 'react-icons/fa';
-import { CiEdit } from 'react-icons/ci';
 import { TaskType } from '@/types/type';
+import ColumActionButtons from './ColumActionButtons';
 import Link from 'next/link';
-import slugify from 'slugify';
+import { IoIosAddCircleOutline } from 'react-icons/io';
 
 interface Props {
   category: string;
@@ -21,7 +21,7 @@ function TasksList({ category, color, tasks }: Props) {
   const path = usePathname();
   const boardName = path.split('/')?.[2].split('-').join(' ');
 
-  const currentTasks: TaskType[] = tasks?.[0].tasks.filter(
+  const currentTasks: TaskType[] = tasks?.[0]?.tasks.filter(
     (item: TaskType) => item.boardName === boardName && item.status === category
   );
 
@@ -37,18 +37,16 @@ function TasksList({ category, color, tasks }: Props) {
           </p>
         </div>
 
-        <Link
-          href={`${path}/new-column/?editColumn=${slugify(category, {
-            lower: true,
-            trim: true,
-          })}&color=${color}`}
-          className='text-gray-500 text-[1.3rem] hover:text-indigo-400 transition-all'
-        >
-          <CiEdit />
-        </Link>
+        <ColumActionButtons
+          tasks={currentTasks}
+          path={path}
+          category={category}
+          color={color}
+          boardName={boardName}
+        />
       </div>
 
-      {currentTasks.length > 0 ? (
+      {currentTasks?.length > 0 ? (
         <div className='flex flex-col gap-3'>
           {currentTasks?.map((item) => (
             <TaskCard
@@ -59,10 +57,17 @@ function TasksList({ category, color, tasks }: Props) {
             />
           ))}
 
-          <div className='mb-6'>&nbsp;</div>
+          <Link
+            href={`${path}/new-task/?status=${category}`}
+            className='py-2 border-2 border-indigo-400 border-dashed rounded-lg flex gap-1 justify-center items-center 
+        text-sm font-bold tracking-wider opacity-80 text-indigo-400 hover:opacity-100 transition-all mt-4 mb-20'
+          >
+            <IoIosAddCircleOutline className='text-xl' />
+            New Task
+          </Link>
         </div>
       ) : (
-        <NoTasksCard category={category} />
+        <NoTasksCard category={category} path={path} boardName={boardName} />
       )}
     </div>
   );

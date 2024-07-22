@@ -14,6 +14,7 @@ import slugify from 'slugify';
 
 const error = {
   boardName: '',
+  general: '',
 };
 
 // CREATE BOARD
@@ -70,13 +71,22 @@ export async function createBoardAction(_: any, data: FormData) {
 }
 
 // DELETE BOARD
-export async function deleteBoardAction(data: FormData) {
+export async function deleteBoardAction(_: any, data: FormData) {
   const user = await getUser();
   if (!user?.id) return;
   const boardName = data.get('boardName') as string;
+  const allBoards = await getBoards(user.id);
 
-  if (user?.id && boardName)
+  const currentBoard = allBoards.find(
+    (item) => item.boardName === boardName.split('-').join(' ')
+  );
+
+  if (user?.id && boardName && currentBoard?.boardColumns.length <= 0)
     await deleteBoard(user.id, boardName.split('-').join(' '));
+  if (currentBoard?.boardColumns.length > 0) {
+    error.general = 'Column(s) must be deleted first';
+    return error;
+  }
   revalidatePath('/');
 
   const boards = await getBoards(user?.id);

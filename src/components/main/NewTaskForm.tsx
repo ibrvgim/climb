@@ -8,8 +8,15 @@ import Select from '../general/Select';
 import Button from '../general/Button';
 import { useFormState } from 'react-dom';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { TaskType } from '@/types/type';
 
-function NewTaskForm({ allColumns }: { allColumns: string[] }) {
+function NewTaskForm({
+  allColumns,
+  editTask,
+}: {
+  allColumns: string[];
+  editTask: TaskType;
+}) {
   const [state, formAction] = useFormState(createTaskAction, {});
   const path = usePathname();
   const boardName = path.split('/')?.[2].split('-').join(' ');
@@ -29,11 +36,20 @@ function NewTaskForm({ allColumns }: { allColumns: string[] }) {
         readOnly
       />
 
+      <input
+        name='editTask'
+        value={editTask?.id}
+        hidden
+        className='hidden'
+        readOnly
+      />
+
       <Input
         title='Title'
         name='title'
         placeholder='ex. Build Settings UI'
         error={state?.title}
+        defaultValue={editTask?.title}
       />
 
       <Textarea
@@ -41,9 +57,14 @@ function NewTaskForm({ allColumns }: { allColumns: string[] }) {
         name='description'
         placeholder='ex. Keep iterating through the subtasks until we are clear on the core concepts for the app.'
         error={state?.description}
+        defaultValue={editTask?.description}
       />
 
-      <OptionalSubtasks />
+      <OptionalSubtasks
+        defaultOptions={editTask?.subtasks.filter(
+          (item) => item.title !== null
+        )}
+      />
 
       <div>
         <p className='flex items-center w-full text-gray-300 font-bold tracking-wider text-sm mb-2'>
@@ -61,7 +82,7 @@ function NewTaskForm({ allColumns }: { allColumns: string[] }) {
         />
       </div>
 
-      <Button>Create Task</Button>
+      <Button>{editTask?.id ? 'Save Task Changes' : 'Create New Task'}</Button>
     </form>
   );
 }

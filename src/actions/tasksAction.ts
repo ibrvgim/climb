@@ -38,6 +38,8 @@ export async function createTaskAction(_: any, data: FormData) {
   const subtaskFour = data.get('subtask-4') as string;
   const subtaskFive = data.get('subtask-5') as string;
 
+  const editTask = data.get('editTask') as string;
+
   const checkTitle = validValue('title', title, 5);
   const checkDescription = validValue('description', description, 20);
   const checkStatus = validValue('status', status, 1);
@@ -46,33 +48,96 @@ export async function createTaskAction(_: any, data: FormData) {
   if (!checkTitle || !checkDescription || !checkStatus || !checkBoardName) {
     return errors;
   } else {
-    await updateTasks(user?.id, {
-      tasks: [
-        {
-          id: Date.now().toString(),
-          title,
-          description,
-          status,
-          boardName,
-          subtasks: [
-            { title: subtaskOne, checked: false },
-            { title: subtaskTwo, checked: false },
-            { title: subtaskThree, checked: false },
-            { title: subtaskFour, checked: false },
-            { title: subtaskFive, checked: false },
-          ],
-        },
-        ...allCurrentTasks,
-      ],
-    });
+    if (editTask) {
+      const updatedTasks = allCurrentTasks.map((item: TaskType) => {
+        if (item.id === editTask) {
+          return {
+            ...item,
+            title: title,
+            description: description,
+            status: status,
+            subtasks: [
+              {
+                id: item.subtasks[0]?.id,
+                title: subtaskOne,
+                checked: item.subtasks[0]?.checked,
+              },
+              {
+                id: item.subtasks[1]?.id,
+                title: subtaskTwo,
+                checked: item.subtasks[1]?.checked,
+              },
+              {
+                id: item.subtasks[2]?.id,
+                title: subtaskThree,
+                checked: item.subtasks[2]?.checked,
+              },
+              {
+                id: item.subtasks[3]?.id,
+                title: subtaskFour,
+                checked: item.subtasks[3]?.checked,
+              },
+              {
+                id: item.subtasks[4]?.id,
+                title: subtaskFive,
+                checked: item.subtasks[4]?.checked,
+              },
+            ],
+          };
+        } else return item;
+      });
+
+      await updateTasks(user?.id, { tasks: updatedTasks });
+    } else
+      await updateTasks(user?.id, {
+        tasks: [
+          {
+            id: Date.now().toString(),
+            title,
+            description,
+            status,
+            boardName,
+            subtasks: [
+              {
+                id: crypto.randomUUID().slice(0, 7).toString(),
+                title: subtaskOne,
+                checked: false,
+              },
+              {
+                id: crypto.randomUUID().slice(0, 7).toString(),
+                title: subtaskTwo,
+                checked: false,
+              },
+              {
+                id: crypto.randomUUID().slice(0, 7).toString(),
+                title: subtaskThree,
+                checked: false,
+              },
+              {
+                id: crypto.randomUUID().slice(0, 7).toString(),
+                title: subtaskFour,
+                checked: false,
+              },
+              {
+                id: crypto.randomUUID().slice(0, 7).toString(),
+                title: subtaskFive,
+                checked: false,
+              },
+            ],
+          },
+          ...allCurrentTasks,
+        ],
+      });
 
     revalidatePath('/board');
-    redirect(`/board/${slugify(boardName, { lower: true, trim: true })}`);
-  }
-}
 
-export async function checkSubtasksAction(data: FormData) {
-  console.log(data);
+    if (editTask) {
+      redirect(
+        `/board/${slugify(boardName, { lower: true, trim: true })}/${editTask}`
+      );
+    } else
+      redirect(`/board/${slugify(boardName, { lower: true, trim: true })}`);
+  }
 }
 
 export async function deleteTaskAction(data: FormData) {
@@ -88,4 +153,20 @@ export async function deleteTaskAction(data: FormData) {
   await updateTasks(user?.id, { tasks: filterTasks });
   revalidatePath('/board');
   redirect('/board');
+}
+
+export async function deleteAllTasksAction(data: FormData) {
+  const user = await getUser();
+  const boardName = data.get('boardName') as string;
+  const category = data.get('category') as string;
+  if (!boardName || !user?.id) return;
+  const [tasks] = await getTasks(user.id);
+
+  const filterTasks: TaskType[] = tasks?.tasks.filter((item: TaskType) => {
+    if (item.boardName === boardName) return item.status !== category;
+    else return item;
+  });
+
+  await updateTasks(user?.id, { tasks: filterTasks });
+  revalidatePath('/board');
 }

@@ -40,7 +40,11 @@ async function TaskPage({
     <section className='py-8 px-12 bg-gray-900 text-white'>
       <div className='flex items-center justify-between'>
         <GoBack />
-        <TaskActionButtons taskID={taskID} />
+        <TaskActionButtons
+          taskID={taskID}
+          boardID={boardID}
+          status={currentTask.status}
+        />
       </div>
 
       <div className='mt-12'>
@@ -51,7 +55,8 @@ async function TaskPage({
           {currentTask?.description}
         </p>
 
-        <SubtasksCard subtasks={currentTask.subtasks} />
+        {currentTask.subtasks.filter((item) => item?.title !== null).length >
+          0 && <SubtasksCard subtasks={currentTask.subtasks} />}
 
         <div className='mt-10'>
           <p className='text-gray-300 text-xs tracking-widest font-bold uppercase mb-4'>

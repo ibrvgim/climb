@@ -6,12 +6,14 @@ import { useFormState, useFormStatus } from 'react-dom';
 import { createBoardAction } from '@/actions/boardsAction';
 import { useParams, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { error } from 'console';
 
 function CreateNewTab() {
   const params: { boardID: string } = useParams();
   const searchParams = useSearchParams();
   const [state, formAction] = useFormState(createBoardAction, {
     boardName: '',
+    general: '',
   });
   const { pending } = useFormStatus();
   const action = searchParams.get('action');

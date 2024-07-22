@@ -43,10 +43,11 @@ export interface TaskType {
   description: string;
   status: string;
   boardName: string;
-  subtasks: SubtaskType[] | null[];
+  subtasks: SubtaskType[];
 }
 
 export interface SubtaskType {
+  id: string;
   title: string;
   checked: boolean;
 }
