@@ -51,20 +51,6 @@ function SortOptions({
     >
       <button
         className={`hover:text-gray-300 hover:bg-gray-800 rounded-[3px] px-3 py-1 flex transition-colors ${
-          sortBy === 'latest' || !sortBy
-            ? 'text-gray-300 bg-gray-800'
-            : 'hover:opacity-80'
-        }`}
-        onClick={() => {
-          handleShow();
-          handleSortBy('latest');
-        }}
-      >
-        Sort by Date ( latest )
-      </button>
-
-      <button
-        className={`hover:text-gray-300 hover:bg-gray-800 rounded-[3px] px-3 py-1 flex transition-colors ${
           sortBy === 'earliest'
             ? 'text-gray-300 bg-gray-800'
             : 'hover:opacity-80'
@@ -75,6 +61,20 @@ function SortOptions({
         }}
       >
         Sort by Date ( earliest )
+      </button>
+
+      <button
+        className={`hover:text-gray-300 hover:bg-gray-800 rounded-[3px] px-3 py-1 flex transition-colors ${
+          sortBy === 'latest' || !sortBy
+            ? 'text-gray-300 bg-gray-800'
+            : 'hover:opacity-80'
+        }`}
+        onClick={() => {
+          handleShow();
+          handleSortBy('latest');
+        }}
+      >
+        Sort by Date ( latest )
       </button>
     </div>
   );

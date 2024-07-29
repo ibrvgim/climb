@@ -7,7 +7,6 @@ import { TaskType } from '@/types/type';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import slugify from 'slugify';
-import { FaRegEdit } from 'react-icons/fa';
 
 async function TaskPage({
   params: { boardID, taskID },
@@ -37,15 +36,11 @@ async function TaskPage({
 
       <div className='mt-12'>
         <div className='mb-6 flex items-center gap-3'>
-          <div className='border-2 border-indigo-400 inline-block px-4 tracking-wider rounded-full uppercase font-bold text-indigo-300 text-[11px] cursor-default'>
-            {currentTask?.status}
-          </div>
           <Link
             href={`/board/${boardID}/new-task/?taskID=${taskID}&status=${currentTask?.status}`}
-            className='text-gray-500 hover:text-indigo-400 transition-colors'
-            title='Change Task Status'
+            className='border-2 border-indigo-400 inline-block px-4 tracking-wider rounded-full uppercase font-bold text-indigo-300 text-[11px]'
           >
-            <FaRegEdit />
+            {currentTask?.status}
           </Link>
         </div>
 

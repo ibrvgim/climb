@@ -7,7 +7,7 @@ import { BoardType } from '@/types/type';
 import { useState } from 'react';
 
 function BoardsList({ boards }: { boards: BoardType[] }) {
-  const [sortBy, setSortBy] = useState('latest');
+  const [sortBy, setSortBy] = useState('earliest');
 
   const allBoards: string[] = boards
     .sort((a, b) => {

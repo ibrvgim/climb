@@ -5,8 +5,7 @@ import Features from './Features';
 import { getBoards } from '@/data/boards/apiBoards';
 
 async function SideBar({ user }: { user: UserType | null }) {
-  if (!user?.id) return;
-  const boards = await getBoards(user?.id);
+  const boards = user?.id ? await getBoards(user?.id) : [];
 
   return (
     <section className='bg-gray-800 text-white row-span-full border-r-[1px] border-r-gray-600 py-8 min-h-screen'>
