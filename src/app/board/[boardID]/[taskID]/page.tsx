@@ -1,14 +1,13 @@
 import GoBack from '@/components/general/GoBack';
-import Select from '@/components/general/Select';
 import SubtasksCard from '@/components/main/SubtasksCard';
 import TaskActionButtons from '@/components/main/TaskActionButtons';
-import { symbolsRegex } from '@/constants/regex';
 import { getUser } from '@/data/auth/apiAuth';
-import { getBoards } from '@/data/boards/apiBoards';
 import { getTasks } from '@/data/tasks/apiTasks';
 import { TaskType } from '@/types/type';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import slugify from 'slugify';
+import { FaRegEdit } from 'react-icons/fa';
 
 async function TaskPage({
   params: { boardID, taskID },
@@ -18,19 +17,8 @@ async function TaskPage({
   const user = await getUser();
   if (!user?.id) return;
   const [tasks] = await getTasks(user.id);
-  const boards = await getBoards(user.id);
-  const allColumns = boards
-    .find(
-      (item) =>
-        slugify(item.boardName, {
-          lower: true,
-          remove: symbolsRegex,
-          trim: true,
-        }) === boardID
-    )
-    ?.boardColumns.map((item: { title: string }) => item.title);
 
-  const currentTask: TaskType = tasks.tasks.find(
+  const currentTask: TaskType = tasks?.tasks.find(
     (item: TaskType) =>
       item.id === taskID && slugify(item.boardName, { lower: true }) === boardID
   );
@@ -48,6 +36,19 @@ async function TaskPage({
       </div>
 
       <div className='mt-12'>
+        <div className='mb-6 flex items-center gap-3'>
+          <div className='border-2 border-indigo-400 inline-block px-4 tracking-wider rounded-full uppercase font-bold text-indigo-300 text-[11px] cursor-default'>
+            {currentTask?.status}
+          </div>
+          <Link
+            href={`/board/${boardID}/new-task/?taskID=${taskID}&status=${currentTask?.status}`}
+            className='text-gray-500 hover:text-indigo-400 transition-colors'
+            title='Change Task Status'
+          >
+            <FaRegEdit />
+          </Link>
+        </div>
+
         <p className='font-bold text-2xl text-gray-300 tracking-wider mb-4'>
           {currentTask?.title}
         </p>
@@ -57,16 +58,6 @@ async function TaskPage({
 
         {currentTask.subtasks.filter((item) => item?.title !== null).length >
           0 && <SubtasksCard subtasks={currentTask.subtasks} />}
-
-        <div className='mt-10'>
-          <p className='text-gray-300 text-xs tracking-widest font-bold uppercase mb-4'>
-            Status:
-          </p>
-
-          <div className='mb-10'>
-            <Select options={allColumns} defaultValue={currentTask.status} />
-          </div>
-        </div>
       </div>
     </section>
   );

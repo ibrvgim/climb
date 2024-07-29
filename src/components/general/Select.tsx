@@ -70,20 +70,23 @@ function Options({
       className={`flex flex-col bg-gray-800 w-full rounded-md mt-1 mb-10 border-[1px] border-gray-500 overflow-hidden ${position}`}
     >
       {options.map((option, index) => (
-        <button
+        <div
           key={option}
-          className={`flex text-gray-400 text-xs font-medium uppercase tracking-wide py-2 px-5 
-            hover:text-gray-300 hover:bg-gray-700 hover:font-semibold
-            ${
-              index + 1 === options.length
-                ? ''
-                : 'border-b-[1px] border-b-gray-500 pb-2'
-            }`}
-          onClick={() => handleValue(option)}
-          type='button'
+          className={`py-2 px-5 hover:text-gray-300 hover:bg-gray-700 hover:font-semibold
+          ${
+            index + 1 === options.length
+              ? ''
+              : 'border-b-[1px] border-b-gray-500 pb-2'
+          }`}
         >
-          {option}
-        </button>
+          <button
+            className='w-full flex text-gray-400 text-xs font-medium uppercase tracking-wide'
+            onClick={() => handleValue(option)}
+            type='button'
+          >
+            {option}
+          </button>
+        </div>
       ))}
     </div>
   );

@@ -26,6 +26,7 @@ interface UserMetaData {
 
 // boards type
 export interface BoardType {
+  created_at: string;
   userId: string;
   boardName: string;
   boardColumns: Columns[];

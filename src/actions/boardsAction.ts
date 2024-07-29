@@ -8,6 +8,8 @@ import {
   getBoards,
   updateBoardById,
 } from '@/data/boards/apiBoards';
+import { getTasks, updateTasks } from '@/data/tasks/apiTasks';
+import { TaskType } from '@/types/type';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import slugify from 'slugify';
@@ -27,6 +29,8 @@ export async function createBoardAction(_: any, data: FormData) {
 
   const boards = await getBoards(user?.id);
   const allBoards: string[] = boards.map((item) => item.boardName);
+
+  const [tasks] = await getTasks(user?.id);
 
   const boardId = boards.find(
     (item) =>
@@ -54,9 +58,21 @@ export async function createBoardAction(_: any, data: FormData) {
   }
 
   if (action === 'edit-board') {
+    const updatedTasks = tasks?.tasks.map((item: TaskType) => {
+      if (
+        item.boardName === currentBoardName.split('-').join(' ').toLowerCase()
+      ) {
+        return {
+          ...item,
+          boardName: boardName.toLowerCase(),
+        };
+      } else return item;
+    });
+
     await updateBoardById(boardId, {
       boardName: boardName.toLowerCase(),
     });
+    await updateTasks(user?.id, { tasks: updatedTasks });
   } else {
     await createBoard(user?.id, boardName.toLowerCase());
   }

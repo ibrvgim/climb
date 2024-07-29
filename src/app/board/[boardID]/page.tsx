@@ -6,6 +6,21 @@ import { BoardType } from '@/types/type';
 import { redirect } from 'next/navigation';
 import slugify from 'slugify';
 
+export async function generateMetadata({
+  params: { boardID },
+}: {
+  params: { boardID: string };
+}) {
+  return {
+    title: boardID
+      .split('-')
+      .map(
+        (item) => item.slice(0, 1).toUpperCase() + item.slice(1).toLowerCase()
+      )
+      .join(' '),
+  };
+}
+
 async function BoardItemPage({ params }: { params: { boardID: string } }) {
   const user = await getUser();
   if (!user) redirect('/');

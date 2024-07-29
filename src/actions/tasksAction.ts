@@ -170,3 +170,7 @@ export async function deleteAllTasksAction(data: FormData) {
   await updateTasks(user?.id, { tasks: filterTasks });
   revalidatePath('/board');
 }
+
+export async function updateTaskStatus(data: FormData) {
+  console.log(data);
+}

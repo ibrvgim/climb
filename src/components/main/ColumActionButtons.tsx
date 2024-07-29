@@ -19,7 +19,7 @@ function ColumActionButtons({
 }) {
   return (
     <div className='flex items-center gap-2'>
-      {tasks.length >= 2 && (
+      {tasks?.length >= 2 && (
         <DeleteAllButton boardName={boardName} category={category} />
       )}
 
